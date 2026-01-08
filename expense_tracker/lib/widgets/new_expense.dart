@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
+import 'package:expense_tracker/models/expense.dart';
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key});
 
@@ -15,6 +16,7 @@ class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
+  Category _selectedCategory = Category.leisure;
 
   bool get _isFormValid {
     return _titleController.text.trim().isNotEmpty &&
@@ -64,6 +66,7 @@ class _NewExpenseState extends State<NewExpense> {
     print('Title: $title');
     print('Amount: \$${amount.toStringAsFixed(2)}');
     print('Date: $formattedDate');
+    print('Category: ${_selectedCategory.name}');
 
     // Navigator.pop(context);
   }
@@ -106,12 +109,27 @@ class _NewExpenseState extends State<NewExpense> {
           ),
           const SizedBox(height: 16),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              Expanded(
+                child: DropdownButton<Category>(
+                  value: _selectedCategory,
+                  isExpanded: true,
+                  items: Category.values.map(
+                    (category) => DropdownMenuItem<Category>(
+                      value: category,
+                      child: Text(category.name.toUpperCase()),
+                    ),
+                  ).toList(),
+                  onChanged: (value) {
+                    if (value == null) return;
+                    setState(() {
+                      _selectedCategory = value;
+                    });
+                  },
+                ),
+              ),
               TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+                onPressed: () => Navigator.pop(context),
                 child: const Text('Cancel'),
               ),
               ElevatedButton(
