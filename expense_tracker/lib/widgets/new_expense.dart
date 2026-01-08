@@ -15,6 +15,7 @@ class NewExpense extends StatefulWidget {
 class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  final _dateController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
   Category _selectedCategory = Category.leisure;
 
@@ -29,6 +30,7 @@ class _NewExpenseState extends State<NewExpense> {
 
     _titleController.addListener(_onInputChanged);
     _amountController.addListener(_onInputChanged);
+    _dateController.text = DateFormat.yMMMd().format(_selectedDate);
   }
 
   void _onInputChanged() {
@@ -39,6 +41,7 @@ class _NewExpenseState extends State<NewExpense> {
   void dispose() {
     _titleController.dispose();
     _amountController.dispose();
+    _dateController.dispose();
     super.dispose();
   }
 
@@ -54,6 +57,7 @@ class _NewExpenseState extends State<NewExpense> {
     if (pickedDate != null) {
       setState(() {
         _selectedDate = pickedDate;
+        _dateController.text = DateFormat.yMMMd().format(pickedDate);
       });
     }
   }
@@ -99,11 +103,11 @@ class _NewExpenseState extends State<NewExpense> {
           ),
           const SizedBox(height: 16),
           TextField(
+            controller: _dateController,
             readOnly: true,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Date',
-              hintText: DateFormat.yMMMd().format(_selectedDate),
-              suffixIcon: const Icon(Icons.calendar_today),
+              suffixIcon: Icon(Icons.calendar_today),
             ),
             onTap: _pickDate,
           ),
