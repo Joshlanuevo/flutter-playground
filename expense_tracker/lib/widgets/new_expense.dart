@@ -4,7 +4,9 @@ import 'package:intl/intl.dart';
 
 import 'package:expense_tracker/models/expense.dart';
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  const NewExpense({super.key, required this.onAddExpense});
+
+  final void Function(Expense expense) onAddExpense;
 
   @override
   State<NewExpense> createState() {
@@ -65,14 +67,24 @@ class _NewExpenseState extends State<NewExpense> {
   void _saveExpense() {
     final title = _titleController.text.trim();
     final amount = double.parse(_amountController.text);
-    final formattedDate = DateFormat.yMMMd().format(_selectedDate);
 
-    print('Title: $title');
-    print('Amount: \$${amount.toStringAsFixed(2)}');
-    print('Date: $formattedDate');
-    print('Category: ${_selectedCategory.name}');
+    // print('Title: $title');
+    // print('Amount: \$${amount.toStringAsFixed(2)}');
+    // print('Date: $formattedDate');
+    // print('Category: ${_selectedCategory.name}');
 
-    // Navigator.pop(context);
+    final newExpense = Expense(
+      title: title,
+      amount: amount,
+      date: _selectedDate,
+      category: _selectedCategory,
+    );
+
+    // Pass it back to parent
+    widget.onAddExpense(newExpense);
+
+    // Close the overlay / bottom sheet
+    Navigator.pop(context);
   }
 
   @override

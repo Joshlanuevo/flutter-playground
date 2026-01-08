@@ -31,8 +31,25 @@ class _ExpensesState extends State<Expenses> {
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
-      builder: (ctx) => const NewExpense(),
+      builder: (ctx) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(ctx).viewInsets.bottom,
+        ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: NewExpense(
+              onAddExpense: (newExpense) {
+                setState(() {
+                  _registeredExpenses.add(newExpense);
+                });
+              },
+            ),
+          ),
+        ),
+      ),
     );
   }
 
