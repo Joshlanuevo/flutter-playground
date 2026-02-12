@@ -15,12 +15,12 @@ class CategoriesScreen extends StatelessWidget {
           mainAxisSpacing: 20,
         ),
         children: [
-          Text('Category 1'),
-          Text('Category 2'),
-          Text('Category 3'),
-          Text('Category 4'),
-          Text('Category 5'),
-          Text('Category 6'),
+          Text('Category 1', style: TextStyle(color: Colors.white),),
+          Text('Category 2', style: TextStyle(color: Colors.white),),
+          Text('Category 3', style: TextStyle(color: Colors.white),),
+          Text('Category 4', style: TextStyle(color: Colors.white),),
+          Text('Category 5', style: TextStyle(color: Colors.white),),
+          Text('Category 6', style: TextStyle(color: Colors.white),),
         ],
       ),
     );
