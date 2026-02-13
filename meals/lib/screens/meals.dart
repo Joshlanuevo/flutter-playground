@@ -17,27 +17,41 @@ class MealsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: ListView.builder(
-        itemCount: meals.length,
-        itemBuilder: (ctx, index) {
-          final meal = meals[index];
-          return Card(
-            margin: const EdgeInsets.all(8),
-            child: ListTile(
-              leading: Image.network(
-                meal.imageUrl,
-                width: 50,
-                fit: BoxFit.cover,
-                errorBuilder: (ctx, error, stackTrace) {
-                  return const Icon(Icons.fastfood);
-                },
+      body: meals.isEmpty
+          ? Center(
+              child: Text(
+                'No meals available for this category.',
+                style: Theme.of(context).textTheme.titleMedium,
+                textAlign: TextAlign.center,
               ),
-              title: Text(meal.title),
-              subtitle: Text('${meal.duration} min | ${meal.complexity.name}'),
+            )
+          : ListView.builder(
+              itemCount: meals.length,
+              itemBuilder: (ctx, index) {
+                final meal = meals[index];
+                return Card(
+                  margin: const EdgeInsets.all(8),
+                  child: ListTile(
+                    leading: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          meal.imageUrl,
+                          fit: BoxFit.cover,
+                          errorBuilder: (ctx, error, stackTrace) {
+                            return const Icon(Icons.fastfood, size: 50);
+                          },
+                        ),
+                      ),
+                    ),
+                    title: Text(meal.title),
+                    subtitle: Text('${meal.duration} min | ${meal.complexity.name}'),
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 }
