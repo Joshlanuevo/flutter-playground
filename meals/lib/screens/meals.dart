@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meals/models/meal.dart';
+import 'package:meals/widgets/meal_item.dart';
 
 class MealsScreen extends StatelessWidget {
   const MealsScreen({
@@ -10,6 +11,13 @@ class MealsScreen extends StatelessWidget {
 
   final String title;
   final List<Meal> meals;
+
+  void _selectMeal(BuildContext context, Meal meal) {
+    // TODO: Navigate to MealDetailScreen
+    // Navigator.of(context).push(
+    //   MaterialPageRoute(builder: (ctx) => MealDetailScreen(meal: meal)),
+    // );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,31 +34,12 @@ class MealsScreen extends StatelessWidget {
               ),
             )
           : ListView.builder(
+              padding: const EdgeInsets.symmetric(vertical: 8),
               itemCount: meals.length,
-              itemBuilder: (ctx, index) {
-                final meal = meals[index];
-                return Card(
-                  margin: const EdgeInsets.all(8),
-                  child: ListTile(
-                    leading: SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          meal.imageUrl,
-                          fit: BoxFit.cover,
-                          errorBuilder: (ctx, error, stackTrace) {
-                            return const Icon(Icons.fastfood, size: 50);
-                          },
-                        ),
-                      ),
-                    ),
-                    title: Text(meal.title),
-                    subtitle: Text('${meal.duration} min | ${meal.complexity.name}'),
-                  ),
-                );
-              },
+              itemBuilder: (ctx, index) => MealItem(
+                meal: meals[index],
+                onSelectMeal: (meal) => _selectMeal(context, meal),
+              ),
             ),
     );
   }

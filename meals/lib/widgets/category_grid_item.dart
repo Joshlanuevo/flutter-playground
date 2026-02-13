@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:meals/models/category.dart';
 import 'package:meals/data/dummy_data.dart';
 import 'package:meals/screens/meals.dart';
+
 class CategoryGridItem extends StatelessWidget {
   const CategoryGridItem({
-    required this.category, 
+    required this.category,
     super.key,
   });
 
   final Category category;
 
   void selectCategory(BuildContext context) {
-    // Filter meals belonging to this category
     final categoryMeals = dummyMeals
         .where((meal) => meal.categories.contains(category.id))
         .toList();
@@ -45,10 +45,12 @@ class CategoryGridItem extends StatelessWidget {
           ),
         ),
         child: Text(
-          category.title, 
+          category.title,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            color: Theme.of(context).colorScheme.onBackground,
-          ),
+                // Fixed: colorScheme.onBackground is deprecated in Material3,
+                // colorScheme.onSurface is the correct replacement.
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
         ),
       ),
     );
